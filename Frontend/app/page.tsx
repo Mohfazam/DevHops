@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronRight, Zap, GitBranch, TrendingUp, Check, ArrowRight } from 'lucide-react';
 
 export default function Home() {
@@ -26,28 +27,151 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
-      {/* Animated Background Gradient */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{
-            background: 'radial-gradient(circle, #d4af37 0%, transparent 70%)',
-            transform: `translateY(${scrollY * 0.5}px)`,
-          }}
-        />
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{
-            background: 'radial-gradient(circle, #f4d03f 0%, transparent 70%)',
-            transform: `translateY(${scrollY * -0.3}px)`,
-          }}
-        />
-      </div>
+    <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+      {/* Hexagonal Background Pattern with Breathing Effect */}
+      <motion.div
+        animate={{
+          opacity: [0.04, 0.09, 0.04],
+          scale: [1, 1.02, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute inset-0 opacity-[0.05] z-0"
+      >
+        <svg
+          className="absolute inset-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <defs>
+            <linearGradient id="hex-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#d4af37', stopOpacity: 0.5 }} /> {/* gold */}
+              <stop offset="25%" style={{ stopColor: '#f4d03f', stopOpacity: 0.4 }} /> {/* yellow */}
+              <stop offset="50%" style={{ stopColor: '#ffec8b', stopOpacity: 0.3 }} /> /* light yellow */
+              <stop offset="75%" style={{ stopColor: '#fffacd', stopOpacity: 0.2 }} /> /* lemon chiffon */
+              <stop offset="100%" style={{ stopColor: '#FFFFFF', stopOpacity: 0.15 }} /> {/* white */}
+            </linearGradient>
+            <pattern id="hexagons" x="0" y="0" width="20" height="17.32" patternUnits="userSpaceOnUse">
+              <polygon
+                points="10,1 18.66,6 18.66,16 10,21 1.34,16 1.34,6"
+                fill="none"
+                stroke="url(#hex-gradient)"
+                strokeWidth="0.5"
+              />
+              <polygon
+                points="22,10.66 30.66,15.66 30.66,25.66 22,30.66 13.34,25.66 13.34,15.66"
+                fill="none"
+                stroke="url(#hex-gradient)"
+                strokeWidth="0.3"
+              />
+            </pattern>
+            <filter id="hex-glow">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" />
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hexagons)" filter="url(#hex-glow)" />
+        </svg>
+      </motion.div>
+
+      {/* Animated hexagonal elements */}
+      <motion.div
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.1, 1],
+          opacity: [0.02, 0.03, 0.02],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+        className="absolute top-20 right-20 opacity-[0.02]"
+      >
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <polygon
+            points="60,10 95,32.5 95,77.5 60,100 25,77.5 25,32.5"
+            fill="none"
+            stroke="url(#hex-gradient)"
+            strokeWidth="1"
+          />
+          <polygon
+            points="60,25 80,37.5 80,62.5 60,75 40,62.5 40,37.5"
+            fill="none"
+            stroke="url(#hex-gradient)"
+            strokeWidth="0.5"
+          />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        animate={{
+          rotate: [360, 0],
+          scale: [1.1, 1, 1.1],
+          opacity: [0.015, 0.025, 0.015],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+        className="absolute bottom-32 left-16 opacity-[0.015]"
+      >
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <polygon
+            points="40,5 65,22.5 65,57.5 40,75 15,57.5 15,22.5"
+            fill="none"
+            stroke="url(#hex-gradient)"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </motion.div>
+
+      {/* Minimal floating elements with hexagonal inspiration */}
+      <motion.div
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0.02, 0.04, 0.02],
+          rotate: [0, 60, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute w-[600px] h-[600px] -top-80 -right-80"
+      >
+        <div className="w-full h-full bg-gradient-to-br from-yellow-500/10 to-transparent rounded-full blur-3xl transform rotate-45" />
+      </motion.div>
+
+      <motion.div
+        animate={{
+          scale: [1.05, 1, 1.05],
+          opacity: [0.015, 0.03, 0.015],
+          rotate: [0, -60, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute w-[500px] h-[500px] -bottom-80 -left-80"
+      >
+        <div className="w-full h-full bg-gradient-to-tr from-yellow-400/10 to-transparent rounded-full blur-3xl transform -rotate-45" />
+      </motion.div>
 
       {/* HEADER */}
       <header
-        className="relative border-b transition-all duration-500"
+        className="relative z-10 border-b transition-all duration-500"
         style={{
           borderColor: scrollY > 50 ? 'rgba(212, 175, 55, 0.12)' : 'rgba(212, 175, 55, 0.05)',
           backgroundColor: scrollY > 50 ? 'rgba(0, 0, 0, 0.7)' : 'transparent',
@@ -88,7 +212,7 @@ export default function Home() {
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-6 py-28 text-center">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-28 text-center">
         <div className="space-y-6 animate-slide-up">
           <div className="inline-block">
             <div
@@ -145,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* STATS SECTION */}
-      <section className="relative max-w-7xl mx-auto px-6 py-16">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[
             { label: 'Detection Speed', value: '<30s', icon: Zap },
@@ -183,7 +307,7 @@ export default function Home() {
       </section>
 
       {/* CONNECT SECTION */}
-      <section className="relative max-w-5xl mx-auto px-6 py-20">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-20">
         <div className="space-y-8">
           <div className="text-center space-y-4">
             <h2 className="text-4xl font-bold">Start monitoring now</h2>
@@ -191,14 +315,53 @@ export default function Home() {
           </div>
 
           <div
-            className="glass p-10 rounded-3xl space-y-8"
+            className="glass p-10 rounded-3xl space-y-8 relative overflow-hidden"
             style={{
               backgroundColor: 'rgba(18, 18, 18, 0.5)',
               borderColor: 'rgba(212, 175, 55, 0.15)',
             }}
           >
+            {/* Hexagonal pattern overlay for the form */}
+            <motion.div
+              animate={{
+                opacity: [0.03, 0.05, 0.03],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="absolute inset-0 opacity-[0.03]"
+            >
+              <svg
+                className="absolute inset-0 w-full h-full"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 60 60"
+              >
+                <defs>
+                  <linearGradient id="hex-gradient-card" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#d4af37', stopOpacity: 0.3 }} /> {/* gold */}
+                    <stop offset="50%" style={{ stopColor: '#f4d03f', stopOpacity: 0.3 }} /> {/* yellow */}
+                    <stop offset="100%" style={{ stopColor: '#FFFFFF', stopOpacity: 0.3 }} /> {/* white */}
+                  </linearGradient>
+                </defs>
+                <polygon
+                  points="30,5 50,17.5 50,42.5 30,55 10,42.5 10,17.5"
+                  fill="none"
+                  stroke="url(#hex-gradient-card)"
+                  strokeWidth="0.4"
+                />
+                <polygon
+                  points="30,15 40,22.5 40,37.5 30,45 20,37.5 20,22.5"
+                  fill="none"
+                  stroke="url(#hex-gradient-card)"
+                  strokeWidth="0.3"
+                />
+              </svg>
+            </motion.div>
+
             {/* Metrics URL */}
-            <div className="space-y-3">
+            <div className="space-y-3 relative z-10">
               <label className="block text-sm font-semibold flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-gradient-accent flex items-center justify-center text-xs font-bold text-white">
                   1
@@ -229,7 +392,7 @@ export default function Home() {
             </div>
 
             {/* GitHub Repo */}
-            <div className="space-y-3">
+            <div className="space-y-3 relative z-10">
               <label className="block text-sm font-semibold flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-gradient-accent flex items-center justify-center text-xs font-bold text-white">
                   2
@@ -260,7 +423,7 @@ export default function Home() {
             </div>
 
             {/* Options */}
-            <div className="space-y-4 pt-4">
+            <div className="space-y-4 pt-4 relative z-10">
               <label className="flex items-center gap-4 cursor-pointer group transition-all">
                 <div className="relative">
                   <input
@@ -304,7 +467,7 @@ export default function Home() {
             <button
               onClick={handleConnect}
               disabled={isConnecting || !metricsUrl || !githubRepo}
-              className="w-full py-4 px-6 rounded-xl font-semibold text-black transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full py-4 px-6 rounded-xl font-semibold text-black transition-all duration-300 flex items-center justify-center gap-2 relative z-10"
               style={{
                 background: isConnecting
                   ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)'
@@ -328,7 +491,7 @@ export default function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how-it-works" className="relative max-w-7xl mx-auto px-6 py-20">
+      <section id="how-it-works" className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-4xl font-bold">How it works</h2>
           <p style={{ color: '#e0e0e0' }}>Five simple steps to regression-free production</p>
@@ -346,7 +509,7 @@ export default function Home() {
             return (
               <div key={idx} className="relative group">
                 <div
-                  className="glass p-6 rounded-2xl text-center space-y-4 transition-all duration-500 hover:scale-105 h-full"
+                  className="glass p-6 rounded-2xl text-center space-y-4 transition-all duration-500 hover:scale-105 h-full relative overflow-hidden"
                   style={{
                     backgroundColor: 'rgba(18, 18, 18, 0.4)',
                     borderColor: 'rgba(212, 175, 55, 0.12)',
@@ -360,14 +523,14 @@ export default function Home() {
                     e.currentTarget.style.backgroundColor = 'rgba(18, 18, 18, 0.4)';
                   }}
                 >
-                  <Icon className="w-8 h-8 mx-auto" style={{ color: '#d4af37' }} />
-                  <h3 className="font-semibold">{step.title}</h3>
-                  <p className="text-sm" style={{ color: '#a0a0a0' }}>
+                  <Icon className="w-8 h-8 mx-auto relative z-10" style={{ color: '#d4af37' }} />
+                  <h3 className="font-semibold relative z-10">{step.title}</h3>
+                  <p className="text-sm relative z-10" style={{ color: '#a0a0a0' }}>
                     {step.desc}
                   </p>
                 </div>
                 {idx < 4 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600" />
+                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 z-20" />
                 )}
               </div>
             );
@@ -376,7 +539,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="relative max-w-7xl mx-auto px-6 py-20">
+      <section id="features" className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-4xl font-bold">What you get</h2>
           <p style={{ color: '#e0e0e0' }}>Everything you need to fix regressions faster</p>
@@ -393,7 +556,7 @@ export default function Home() {
           ].map((feature, idx) => (
             <div
               key={idx}
-              className="glass p-8 rounded-2xl space-y-4 transition-all duration-500 hover:scale-105 group"
+              className="glass p-8 rounded-2xl space-y-4 transition-all duration-500 hover:scale-105 group relative overflow-hidden"
               style={{
                 backgroundColor: 'rgba(18, 18, 18, 0.4)',
                 borderColor: 'rgba(212, 175, 55, 0.12)',
@@ -407,11 +570,11 @@ export default function Home() {
                 e.currentTarget.style.backgroundColor = 'rgba(18, 18, 18, 0.4)';
               }}
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform relative z-10">
                 <Check className="w-6 h-6 text-black" />
               </div>
-              <h3 className="text-lg font-semibold">{feature.title}</h3>
-              <p style={{ color: '#e0e0e0' }}>{feature.desc}</p>
+              <h3 className="text-lg font-semibold relative z-10">{feature.title}</h3>
+              <p style={{ color: '#e0e0e0' }} className="relative z-10">{feature.desc}</p>
             </div>
           ))}
         </div>
@@ -419,7 +582,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer
-        className="relative border-t mt-20 py-16"
+        className="relative z-10 border-t mt-20 py-16"
         style={{ borderColor: 'rgba(212, 175, 55, 0.08)' }}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -443,7 +606,7 @@ export default function Home() {
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" style={{ color: '#94a3b8' }} className="hover:text-purple-400 transition-colors">
+                      <a href="#" style={{ color: '#94a3b8' }} className="hover:text-yellow-400 transition-colors">
                         {link}
                       </a>
                     </li>
